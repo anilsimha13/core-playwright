@@ -32,6 +32,8 @@
 
 [16. Handle Shadow DOM Elements, SSL, Proxy and Cookies](#16-handle-shadow-dom-elements-ssl-proxy-and-cookies)
 
+[17. Auto Waiting, Assertions and Test Generator(Codegen)](#17-auto-waiting-assertions-and-test-generatorcodegen)
+
 ## Interview POV
 
 1. ### What is Playwright?
@@ -458,3 +460,54 @@ const retrivedCookies = allTheCookies.find((c) => c.name === "mycookies1");
 console.log(retrivedCookies);
 await context.clearCookies();
 ```
+
+## 17. Auto Waiting, Assertions and Test Generator(Codegen)
+
+- Auto Waiting
+
+  - Playwright automatically waits for the elements to be ready before performing actions.
+  - It waits for elements to be visible, enabled, and stable.
+  - No need to use explicit waits like `sleep` or `waitForSelector` in most cases.
+
+  ```js
+  //force keyword is used to skip the Auto waiting
+  await page.locator("#small-searchterms").fill("Laptop", { force: true });
+  await page.locator(".button-1.search-box-button").click({ force: true });
+  ```
+
+- Timeouts
+
+  - You can set default timeouts for actions and navigation in Playwright.
+  - Eg: `test.setTimeout(60000);` sets a 60-second timeout for a specific test.
+  - You can also set timeouts for specific actions using options.
+  - Example: `await page.click('#submit', { timeout: 10000 });` sets a 10-second timeout for the click action.
+  - Global timeouts can be configured in `playwright.config.ts` file.
+    `eg: timeout: 30000` sets a default timeout of 30 seconds for all tests.
+  - Timout for expect globally
+    - `expect.setTimeout(5000);` sets a 5-second timeout for all assertions.
+  - Timeout for expect locally
+    - `await expect(locator).toBeVisible({ timeout: 10000 });` sets a 10-second timeout for this specific assertion.
+  - test.slow() method
+    - `test.slow()` can be used to mark a test as slow, which increases its timeout limit.
+    - Example: `test('slow test', async ({ page }) => { test.slow(); /* test code */ });`
+
+- Assertions (Auto retry mechanism and Non-retry mechanism)
+
+  - Playwright provides built-in assertions to verify the state of elements and pages.
+  - Examples include `toBeVisible()`, `toHaveText()`, `toBeChecked()`, etc.
+  - Assertions help ensure that the application behaves as expected during tests.
+  - Timeout is possible only on Auto retry mechanism assertions not on non-retry mechanism assertions.
+  - Hard Assertions fails to execute further steps once the assertion fails.
+  - Soft Assertions allows the test to continue executing even if an assertion fails.
+
+  ```js
+  //Soft Assertion Example
+  await expect.soft(locator).toBeVisible({ timeout: 10000 });
+  ```
+
+- Test Generator (Codegen)
+  - Playwright's Codegen feature allows you to record user interactions and generate test code automatically.
+  - You can start Codegen by running `npx playwright codegen <website-url>`.
+  - `npx playwright codegen -o <filename.ts> <website-url>` to save the generated code directly to a file.
+  - It captures actions like clicks, form fills, and navigation, and generates corresponding test code.
+  - Codegen is useful for quickly creating test scripts and learning how to use Playwright's API.
