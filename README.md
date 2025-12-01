@@ -34,6 +34,8 @@
 
 [17. Auto Waiting, Assertions and Test Generator(Codegen)](#17-auto-waiting-assertions-and-test-generatorcodegen)
 
+[18. Capture Screenshots, Record Videos for test, Trace Viewer and Handle Flaky tests](#18-capture-screenshots-record-videos-for-test-trace-viewer-and-handle-flaky-tests)
+
 ## Interview POV
 
 1. ### What is Playwright?
@@ -511,3 +513,22 @@ await context.clearCookies();
   - `npx playwright codegen -o <filename.ts> <website-url>` to save the generated code directly to a file.
   - It captures actions like clicks, form fills, and navigation, and generates corresponding test code.
   - Codegen is useful for quickly creating test scripts and learning how to use Playwright's API.
+
+## 18. Capture Screenshots,Reacord Videos for test, Trace Viewer and Handle Flaky tests
+
+- Screenshots
+  - `await page.screenshot({ path: 'screenshot.png' });` captures a screenshot of the current page and to take a full page screenshot use `fullPage:true` option.
+  - You can capture screenshots on test failure by configuring it in `playwright.config.ts` using `screenshot: 'only-on-failure'` and also can set it to `on-first-failure`,`on` or `off` in `use` block.
+- Video Recording
+  - You can record videos of your test runs by configuring it in `playwright.config.ts` using `video: 'on-first-retry'`,`retain-on-failure`, `retry-with-video` or `video: 'on'` in `use` block.
+- Trace Viewer
+  - Playwright's Trace Viewer allows you to visualize and analyze the execution of your tests.
+  - You can enable tracing in your tests by configuring it in `playwright.config.ts` using `trace: 'on-first-retry'`,`retain-on-failure`, `retry-with-trace` or `trace: 'on'` in `use` block.
+  - After running your tests with tracing enabled, you can view the trace using the command `npx playwright show-trace <trace-file-path>`.
+  - Traceviewer can be enabled on specific testing using `context.tracing.start({screenshots: true, snapshots: true})` and `context.tracing.stop({path: 'trace.zip'})` methods.
+  - Utility: `https://trace.playwright.dev/`
+- Handling Flaky Tests
+  - Flaky tests are tests that sometimes pass and sometimes fail without any changes to the code.
+  - To handle flaky tests in Playwright, you can use the `retries` option in `playwright.config.ts` to specify the number of times to retry a failed test.
+  - Example: `retries: 2` will retry a failed test up to two times before marking it as failed.
+  - You can also use `test.skip()` to temporarily skip flaky tests until the underlying issue is resolved.
