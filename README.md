@@ -36,6 +36,8 @@
 
 [18. Capture Screenshots, Record Videos for test, Trace Viewer and Handle Flaky tests](#18-capture-screenshots-record-videos-for-test-trace-viewer-and-handle-flaky-tests)
 
+[19. Grouping Tests, Hooks, Annotations and Tagging tests](#19-grouping-tests-hooks-annotations-and-tagging-tests)
+
 ## Interview POV
 
 1. ### What is Playwright?
@@ -532,3 +534,27 @@ await context.clearCookies();
   - To handle flaky tests in Playwright, you can use the `retries` option in `playwright.config.ts` to specify the number of times to retry a failed test.
   - Example: `retries: 2` will retry a failed test up to two times before marking it as failed.
   - You can also use `test.skip()` to temporarily skip flaky tests until the underlying issue is resolved.
+
+## 19. Grouping Tests, Hooks, Annotations and Tagging tests
+
+- By default playwright runs all the test in Parallel mode.
+
+  - To configure serial execution we need to set `fullyParallel: false` in `playwright.config.ts`
+
+- Grouping Tests
+  - You can group related tests using `test.describe()` block.
+  - This helps organize tests and apply common setup/teardown logic.
+  - To run specific group of describe block use `--grep` flag with describe block name.
+    - `npx playwright test --grep "Group Name"`
+- Hooks
+  - Playwright provides hooks like `beforeAll`, `afterAll`, `beforeEach`, and `afterEach` to set up and tear down test environments.
+  - These hooks allow you to run code before or after tests or test suites.
+- Annotations
+  - Playwright supports annotations to add metadata to tests.
+  - You can use annotations like `only`, `skip`, `fixme`, `slow` and `fail` to control test execution.
+- Tagging Tests
+  - You can tag tests with `@tagName` in the test title or you can pass it as a parameter.
+    - Example1: `test('@smoke Test Name', async ({ page }) => { /* test code */ });`
+    - Example2:`test('Test Name', { tags: ['smoke'] }, async ({ page }) => { /* test code */ });`
+  - To run tests with specific tags, use the `--grep` flag with the tag name.
+    - `npx playwright test --grep "@tag-name"`
