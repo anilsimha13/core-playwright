@@ -22,7 +22,7 @@
 
 [11. Handle Date Pickers](#11-handle-date-pickers)
 
-[12. Handling Dialogs and Frames/iFrames](#12-handling-dialogs-and-framesiframess)
+[12. Handling Dialogs and Frames/iFrames](#12-handling-dialogs-and-framesiframes)
 
 [13. Playwright Browser Contexts, Handle Tabs and Popup Windows](#13-playwright-browser-contexts-handle-tabs-and-popup-windows)
 
@@ -38,16 +38,18 @@
 
 [19. Grouping Tests, Hooks, Annotations and Tagging tests](#19-grouping-tests-hooks-annotations-and-tagging-tests)
 
+[20. Parallelism/Parallel Testing](#20-parallelismparallel-testing)
+
 ## Interview POV
 
-1. ### What is Playwright?
+## 1. What is Playwright?
 
-   - Playwright is an open-source tool by Microsoft for automating web browser testing. <br>
-   - Playwright is a framework for automating web browsers, enabling end-to-end testing
-     <br>
-   - Beyound browser testing, Playwright offers a dedicated API for testing and interacting with Web APIs
-   - Released in 2020
-   - Playwright is an Open-source Node.js library
+- Playwright is an open-source tool by Microsoft for automating web browser testing. <br>
+- Playwright is a framework for automating web browsers, enabling end-to-end testing
+  <br>
+- Beyound browser testing, Playwright offers a dedicated API for testing and interacting with Web APIs
+- Released in 2020
+- Playwright is an Open-source Node.js library
 
 #### Major Features
 
@@ -76,7 +78,7 @@
 | Popularity     | Very High               | Growing fast                       |
 | Use Case       | Web, Node.js, scripting | Large apps, maintainable codebases |
 
-2. ### Playwright Kick start
+## 2. Playwright Kick start
 
 - Installation
   - `npm init playwright@latest`
@@ -103,21 +105,21 @@
   - context
   - Locator
 
-3. ### Understanding Playwright Locators(Built-in)
+## 3. Understanding Playwright Locators(Built-in)
 
-   - `page.getByRole()` to locate by explicit and implicit accessibility attributes.
-   - HTML Element vs ARIA Role table [here](https://www.w3.org/TR/html-aria/#docconformance).
+- `page.getByRole()` to locate by explicit and implicit accessibility attributes.
+- HTML Element vs ARIA Role table [here](https://www.w3.org/TR/html-aria/#docconformance).
 
-   - `page.getByText()` to locate by text content/substring.
-   - `page.getByLabel()` to locate a form control by associated label's text.
-   - `page.getByPlaceholder()` to locate an input by placeholder.
-   - `page.getByAltText()` to locate an element, usually image, by its text alternative.
-   - `page.getByTitle()` to locate an element by its title attribute.
-   - `page.getByTestId()` to locate an element based on its data-testid attribute (other attributes can be configured).
-   - In playwright.config.ts we can configure testIdAttribute property to use custom attribute instead of data-testid.
-     example: `testIdAttribute: 'data-test'`
+- `page.getByText()` to locate by text content/substring.
+- `page.getByLabel()` to locate a form control by associated label's text.
+- `page.getByPlaceholder()` to locate an input by placeholder.
+- `page.getByAltText()` to locate an element, usually image, by its text alternative.
+- `page.getByTitle()` to locate an element by its title attribute.
+- `page.getByTestId()` to locate an element based on its data-testid attribute (other attributes can be configured).
+- In playwright.config.ts we can configure testIdAttribute property to use custom attribute instead of data-testid.
+  example: `testIdAttribute: 'data-test'`
 
-4. ### Locating Elements using CSS Locators
+## 4. Locating Elements using CSS Locators
 
 - CSS has two types of stratagies to identify the locators
   - Relative
@@ -135,7 +137,7 @@
 - `p[class$="ma"]`(_$ starts with_)
 - `p[class*="ma"]` (_\* contains_)
 
-5. ### Locating Elements using XPath, Operators and functions in XPath
+## 5. Locating Elements using XPath, Operators and functions in XPath
 
 - Absolute xpath
   - Starts from root
@@ -163,7 +165,7 @@ await page.locator('//input[@type="submit" or @value="Search"]').click();
     - use `OR` , `AND` , or above strategies
     - e.g:`//button[@name="start" or @name="stop"]`
 
-6. ### Locating complex elements using Xpath Axes
+## 6. Locating complex elements using Xpath Axes
 
 - XPath Axes are used to navigate through elements in an XML document relative to the current node.
 - Commonly used XPath Axes:
@@ -558,3 +560,20 @@ await context.clearCookies();
     - Example2:`test('Test Name', { tags: ['smoke'] }, async ({ page }) => { /* test code */ });`
   - To run tests with specific tags, use the `--grep` flag with the tag name.
     - `npx playwright test --grep "@tag-name"`
+
+## 20. Parallelism/Parallel Testing
+
+- we can achieve parallelism in Playwright by configuring the `workers` option in the `playwright.config.ts` file.
+- The `workers` option specifies the number of parallel worker processes that Playwright will use to run tests.
+- By default, Playwright sets the number of workers to the number of CPU cores available on the machine.
+- You can customize the number of workers based on your requirements and the capabilities of your test environment.
+- Example: `workers: 4` will run tests using 4 parallel worker processes.
+- You can also set `workers: 1` to run tests sequentially.
+- Additionally, you can use the `--workers` command-line flag to override the number of workers specified in the configuration file.
+- Example: `npx playwright test --workers=3`
+- Keep in mind that running tests in parallel can significantly reduce the overall test execution time, especially for large test suites.
+- However, ensure that your tests are designed to be independent and do not share state, as this can lead to flaky tests when run in parallel.
+- You can also control parallelism at the test file level by using the `test.describe.parallel()` method to run all tests within a describe block in parallel.
+- You can also use `test.describe.configure({ mode: 'parallel' })` to set parallel mode for a specific describe block and following is the code for serial execution of a describe block.
+  - `test.describe.configure({ mode: 'serial' })`
+- Parallel mode can set at Browser level using `projects` in `playwright.config.ts` file.
