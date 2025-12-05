@@ -40,6 +40,8 @@
 
 [20. Parallelism/Parallel Testing](#20-parallelismparallel-testing)
 
+[21. Parameterization(Data-Driven Testing using JSON, CSV and Excel)](#21-parameterizationdata-driven-testing-using-json-csv-and-excel)
+
 ## Interview POV
 
 ## 1. What is Playwright?
@@ -577,3 +579,69 @@ await context.clearCookies();
 - You can also use `test.describe.configure({ mode: 'parallel' })` to set parallel mode for a specific describe block and following is the code for serial execution of a describe block.
   - `test.describe.configure({ mode: 'serial' })`
 - Parallel mode can set at Browser level using `projects` in `playwright.config.ts` file.
+
+## 21. Parameterization(Data-Driven Testing using JSON, CSV and Excel)
+
+- Data-Driven Testing (DDT) is a testing methodology where test data is separated from test scripts, allowing the same test logic to be executed with different sets of input data.
+- In Playwright, you can achieve DDT by using external data sources like JSON, CSV, or Excel files to provide input data for your tests.
+- JSON Example:
+
+```js
+import test from "@playwright/test";
+import fs from "fs";
+const testData = JSON.parse(fs.readFileSync("testData.json", "utf-8"));
+testData.forEach((data) => {
+  test(`Test with data: ${data.input}`, async ({ page }) => {
+    await page.goto("https://example.com");
+    await page.fill("#inputField", data.input);
+    await page.click("#submitButton");
+    await expect(page.locator("#result")).toHaveText(data.expectedOutput);
+  });
+});
+```
+
+- CSV Example:
+
+```js
+import test from "@playwright/test";
+import fs from "fs";
+import csvParser from "csv-parser";
+const testData = [];
+fs.createReadStream("testData.csv")
+  .pipe(csvParser())
+  .on("data", (row) => {
+    testData.push(row);
+  })
+  .on("end", () => {
+    testData.forEach((data) => {
+      test(`Test with data: ${data.input}`, async ({ page }) => {
+        await page.goto("https://example.com");
+        await page.fill("#inputField", data.input);
+        await page.click("#submitButton");
+        await expect(page.locator("#result")).toHaveText(data.expectedOutput);
+      });
+    });
+  });
+```
+
+- Excel Example:
+
+```js
+import test from "@playwright/test";
+import xlsx from "xlsx";
+const workbook = xlsx.readFile("testData.xlsx");
+const sheetName = workbook.SheetNames[0];
+const sheet = workbook.Sheets[sheetName];
+const testData = xlsx.utils.sheet_to_json(sheet);
+testData.forEach((data) => {
+  test(`Test with data: ${data.input}`, async ({ page }) => {
+    await page.goto("https://example.com");
+    await page.fill("#inputField", data.input);
+    await page.click("#submitButton");
+    await expect(page.locator("#result")).toHaveText(data.expectedOutput);
+  });
+});
+```
+
+- In these examples, we read test data from JSON, CSV, and Excel files, and use that data to run the same test logic with different inputs and expected outputs.
+- This approach allows for easy maintenance and scalability of test cases, as you can simply update the data files without modifying the test scripts.
