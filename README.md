@@ -645,3 +645,21 @@ testData.forEach((data) => {
 
 - In these examples, we read test data from JSON, CSV, and Excel files, and use that data to run the same test logic with different inputs and expected outputs.
 - This approach allows for easy maintenance and scalability of test cases, as you can simply update the data files without modifying the test scripts.
+
+## 22. Playwright Reports & Allure Reports
+
+_Topics Covered:_
+
+- npx playwright show-report
+  - congigure in playwright.config.ts
+  - `reporter: [['html', { open: 'never' }], ['list'], ['junit', { outputFile: 'results/results.xml' }]],`
+- Allure Reports
+  - Installation
+    - `npm install -D allure-playwright`
+    - `npm install -g allure-commandline --save-dev`
+  - Configure in playwright.config.ts
+    - `reporter: [['allure-playwright']],`
+  - Generating Allure Report
+    - `npx playwright test`
+    - `allure generate allure-results --clean -o allure-report`
+    - `allure open allure-report` to view the report

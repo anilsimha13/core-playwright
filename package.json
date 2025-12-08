@@ -18,7 +18,8 @@
   "homepage": "https://github.com/anilsimha13/playwright-e2e#readme",
   "devDependencies": {
     "@playwright/test": "^1.56.0",
-    "@types/node": "^24.7.1"
+    "@types/node": "^24.7.1",
+    "allure-playwright": "^3.4.3"
   },
   "dependencies": {
     "csv-parse": "^6.1.0"
