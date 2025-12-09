@@ -663,3 +663,20 @@ _Topics Covered:_
     - `npx playwright test`
     - `allure generate allure-results --clean -o allure-report`
     - `allure open allure-report` to view the report
+
+## 23. Visual Testing with Playwright
+
+File Location: [tests/VisualTesting.spec.ts](./tests/VisualTesting.spec.ts)
+
+- Visual Testing is a testing approach that focuses on verifying the visual appearance and layout of a web application to ensure it matches the expected design.
+- In Playwright, you can perform visual testing by capturing screenshots of web pages or specific elements and comparing them against baseline images.
+- You can use the `toMatchSnapshot()` assertion to compare screenshots with baseline images.
+
+## 24. Accessibility Testing with Playwright
+
+File Location: [tests/AccessibilityTesting.spec.ts](./tests/AccessibilityTesting.spec.ts)
+
+- Accessibility Testing is the process of evaluating a web application to ensure it is usable by people with disabilities, including those who rely on assistive technologies.
+- In Playwright, you can perform accessibility testing by using the `axe-core` library to analyze web pages for accessibility issues.
+- You can integrate `axe-core` with Playwright to run accessibility checks during your tests.
+  `npm i @axe-core/playwright`
