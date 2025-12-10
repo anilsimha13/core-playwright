@@ -41,6 +41,13 @@
 [20. Parallelism/Parallel Testing](#20-parallelismparallel-testing)
 
 [21. Parameterization(Data-Driven Testing using JSON, CSV and Excel)](#21-parameterizationdata-driven-testing-using-json-csv-and-excel)
+[22. Playwright Reports & Allure Reports](#22-playwright-reports--allure-reports)
+
+[23. Visual Testing with Playwright](#23-visual-testing-with-playwright)
+
+[24. Accessibility Testing with Playwright](#24-accessibility-testing-with-playwright)
+
+[25. Page Object Model (POM) in Playwright](#25-page-object-model-pom-in-playwright)
 
 ## Interview POV
 
@@ -680,3 +687,14 @@ File Location: [tests/AccessibilityTesting.spec.ts](./tests/AccessibilityTesting
 - In Playwright, you can perform accessibility testing by using the `axe-core` library to analyze web pages for accessibility issues.
 - You can integrate `axe-core` with Playwright to run accessibility checks during your tests.
   `npm i @axe-core/playwright`
+
+## 25. Page Object Model (POM) in Playwright
+
+_Topics Covered:_
+
+- Page Object Model (POM) is a design pattern used in test automation to create an abstraction layer for web pages or components.
+- In POM, each web page or component is represented by a separate class, encapsulating the elements and actions related to that page.
+- This approach improves code maintainability, reusability, and readability by separating the test logic from the page structure.
+- In Playwright, you can implement POM by creating classes for each page and defining methods to interact with the elements on that page.
+
+_File Location_ : [pages/LoginPage.ts](./pages/LoginPage.ts) and [tests/POMtest.spec.ts](./tests/POMtest.spec.ts)
